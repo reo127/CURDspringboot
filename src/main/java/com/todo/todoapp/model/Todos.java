@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import java.util.Date;
 
 @Entity
@@ -20,6 +23,15 @@ public class Todos {
 
     private String todo;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date date;
+
+//    @Column(name = "created_date", nullable = false) // Renamed for clarity and consistency
+    @Temporal(TemporalType.DATE) // Specify temporal type for persistence
+    private LocalDate createdDate;
+
+    @PrePersist // Trigger before persisting an entity
+    public void prePersist() {
+        createdDate = LocalDate.now(); // Set current date and time
+    }
 }
